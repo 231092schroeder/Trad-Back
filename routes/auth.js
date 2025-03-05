@@ -493,7 +493,7 @@ router.post('/messages/send', async (req, res) => {
 
   console.log('Dados recebidos no backend:', { consumerId, providerId, senderId, text });
 
-  // Verificar se os parâmetros necessários estão presentes
+  
   if (!consumerId || !providerId || !senderId || !text) {
     return res.status(400).json({ success: false, message: 'Todos os parâmetros são obrigatórios' });
   }
