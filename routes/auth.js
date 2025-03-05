@@ -488,11 +488,18 @@ router.put('/progress/:id/complete', async (req, res) => {
 
 //messenger
 // Enviar mensagem
-router.post('/send', async (req, res) => {
+router.post('/messages/send', async (req, res) => {
   const { consumerId, providerId, senderId, text } = req.body;
 
+  console.log('Dados recebidos no backend:', { consumerId, providerId, senderId, text });
+
+  // Verificar se os parâmetros necessários estão presentes
+  if (!consumerId || !providerId || !senderId || !text) {
+    return res.status(400).json({ success: false, message: 'Todos os parâmetros são obrigatórios' });
+  }
+
   try {
-    const message = new Message({ consumerId, providerId, senderId, text });
+    const message = new Message({ userId, providerId, senderId, text });
     await message.save();
     
     res.json({ success: true, message });
@@ -502,15 +509,26 @@ router.post('/send', async (req, res) => {
   }
 });
 
-// Buscar mensagens entre um consumidor e um prestador
-router.get('/:consumerId/:providerId', async (req, res) => {
+// Buscar mensagens ordenadas por data
+router.get('/messages/:consumerId/:providerId', async (req, res) => {
   const { consumerId, providerId } = req.params;
 
+  // Verificar se os parâmetros são válidos
+  if (!consumerId || !providerId) {
+    return res.status(400).json({ success: false, message: 'ConsumerId e ProviderId são obrigatórios' });
+  }
+
   try {
+    // Verificar se os IDs são válidos antes de tentar convertê-los
+    if (!mongoose.Types.ObjectId.isValid(consumerId) || !mongoose.Types.ObjectId.isValid(providerId)) {
+      return res.status(400).json({ success: false, message: 'IDs inválidos' });
+    }
+
+    // Caso os IDs sejam válidos, você pode buscar diretamente sem necessidade de nova conversão
     const messages = await Message.find({
       $or: [
-        { consumerId, providerId },
-        { providerId: consumerId, consumerId: providerId } // Suporte para troca de mensagens nos dois sentidos
+        { userId: consumerObjectId, providerId: providerObjectId },
+        { providerId: consumerObjectId, userId: providerObjectId }
       ]
     }).sort({ timestamp: 1 });
 
