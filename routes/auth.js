@@ -33,6 +33,11 @@ const findUserByEmail = async (email) => {
   return user;
 };
 
+// Teste para ver se a API está rodando
+router.get('/', (req, res) => {
+  res.json({ message: 'Rota de autenticação funcionando!' });
+});
+
 // Rota de login
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
