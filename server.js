@@ -7,7 +7,7 @@ connectDB('mongodb+srv://tatianeschroeder:Eumeamo2310%40@cluster1.vzsoj.mongodb.
 
 const allowedOrigins = [
     'http://localhost:4200', 
-    'dodgerblue-mink-957865.hostingersite.com' 
+    'https://dodgerblue-mink-957865.hostingersite.com' 
 ];
 
 const app = express();
