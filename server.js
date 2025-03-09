@@ -7,7 +7,7 @@ connectDB('mongodb+srv://tatianeschroeder:Eumeamo2310%40@cluster1.vzsoj.mongodb.
 
 const app = express();
 app.use(cors({
-    origin: 'http://dodgerblue-mink-957865.hostingersite.com',
+    origin: 'https://dodgerblue-mink-957865.hostingersite.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
