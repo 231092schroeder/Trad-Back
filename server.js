@@ -3,7 +3,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const connectDB = require('./config/db.config');
 
-connectDB('localhost:27017/traduction');
+connectDB('mongodb+srv://tatianeschroeder:Eumeamo2310%40@cluster1.vzsoj.mongodb.net/traduction');
 
 const app = express();
 app.use(cors({
