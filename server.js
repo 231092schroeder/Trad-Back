@@ -5,9 +5,20 @@ const connectDB = require('./config/db.config');
 
 connectDB('mongodb+srv://tatianeschroeder:Eumeamo2310%40@cluster1.vzsoj.mongodb.net/traduction');
 
+const allowedOrigins = [
+    'http://localhost:4200', 
+    'https://meusite.hostinger.com' 
+];
+
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:4200', 
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }, 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));
